@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <title>扫码计步器脚本</title>
+</head>
+
+<div id="div">
+</div>
+</body>
+<script type="text/javascript">
+    //var url = 'http://115.29.198.179:1931';
+    var url = 'http://192.168.1.40:1931';
+    var users = new Array(8602,32,33,62,89,36,101,99,88,102,98,104,105,106,107,108,109,110,111,112,114,117,118,119,124,125,126,127,128,129,133);
+    var pedometers = new Array();
+    pedometers[0] =  "CD:44:C4:82:55:12";
+    pedometers[1] =  "F0:6C:4D:9A:83:E9";
+    pedometers[2] =  "ED:77:81:14:4C:26";
+    pedometers[3] =  "ED:89:CD:1B:14:0B";
+    pedometers[4] =  "D1:64:65:07:F1:DA";
+    pedometers[5] =  "DA:74:1C:5C:CD:FE";
+    pedometers[6] =  "F1:C8:76:15:C7:BA";
+    pedometers[7] =  "F9:7B:16:73:8B:73";
+    pedometers[8] =  "CC:57:4D:41:6F:73";
+    pedometers[9] =  "DA:50:F0:61:C4:E0";
+    pedometers[10] = "F4:96:3B:66:3D:BE";
+    pedometers[11] = "F8:5C:38:9A:A4:62";
+    pedometers[12] = "E4:FB:1B:CC:C5:ED";
+    pedometers[13] = "DC:A2:64:1E:F3:B3";
+    pedometers[14] = "CE:41:C2:91:9F:3E";
+    pedometers[15] = "E8:1B:68:27:59:B2";
+    pedometers[16] = "DD:FD:1E:76:B4:DC";
+    pedometers[17] = "DC:6B:A9:57:02:3E";
+    pedometers[18] = "F4:4D:80:65:7B:2A";
+    pedometers[19] = "E4:6B:D5:3A:0B:C4";
+    pedometers[20] = "E7:D2:9F:AD:60:33";
+    pedometers[21] = "E3:CA:4D:58:9E:98";
+    pedometers[22] = "D2:9F:A5:E8:30:59";
+    pedometers[23] = "C2:75:6A:D0:E8:6C";
+    pedometers[24] = "FB:4C:DF:64:B2:42";
+    pedometers[25] = "C4:CA:29:9C:4C:99";
+    pedometers[26] = "CC:C4:9E:21:79:1A";
+    pedometers[27] = "EB:9F:AE:A9:C6:D4";
+    pedometers[28] = "DF:36:62:FA:08:F9";
+    pedometers[29] = "F4:2E:E3:3E:D5:08";
+    var i=0;
+    $(function () {
+       // DiGui();
+    })
+    DiGui = function (param) {
+        var data = {"uid": users[i], "mac":pedometers[i],"type":"pedometer"};
+        $.ajax({
+            type:'POST',
+            url:url,
+            dataType:"json",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            data:data,
+            success: function (rs) {
+                if (i==pedometers.length)
+                    return;
+                $("#div").append(i+"==="+JSON.stringify(rs)+"&nbsp;&nbsp;&nbsp;&nbsp;mac:&nbsp;&nbsp;"+pedometers[i]+"&nbsp;&nbsp;uid:&nbsp;&nbsp;"+users[i]+"</br>");
+                i++;
+                sleep(1000);
+                DiGui();
+            }
+        })};
+
+
+    function sleep(numberMillis) {
+        var now = new Date();
+        var exitTime = now.getTime() + numberMillis;
+        while (true) {
+            now = new Date();
+            if (now.getTime() > exitTime)
+                return;
+        }
+    }
+</script>
+</html>
