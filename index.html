@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>生成二维码</title>
+        <!--都需要引入jQuery.js文件-->
+        <script src="jquery.min.js"></script>
+        <!--<script type="text/javascript" src="js/qrcode/jquery.qrcode.min.js"></script>-->
+            
+        <!--引入上边一个文件（jquery.qrcode.min.js）或者引入下边两个文件（jquery.qrcode.js和qrcode.js）-->
+        
+        <script src="jquery.qrcode.js"></script>
+        <script src="qrcode.js"></script>
+        <style>
+        body{
+            text-align: center;
+        }
+        #qrcode{
+            margin:100px auto;
+        }
+        #text{
+            width: 400px;height: 200px;
+            border:1px solid #ccc;
+        }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="text" placeholder="请输入要生成二维码的文本">
+        <input type="button" id="create" value="生成二维码">
+		<input type="button" id="batchcreate" value="批量生成二维码">
+        <input type="button" id="download" value="下载二维码">		
+        <br>
+        <div id="qrcode"></div>
+        <script type="text/javascript">
+		var macs = new Array();
+		macs[0] =  "CD:44:C4:82:55:12";
+		macs[1] =  "F0:6C:4D:9A:83:E9";
+		macs[2] =  "ED:77:81:14:4C:26";
+		macs[3] =  "ED:89:CD:1B:14:0B";
+		macs[4] =  "D1:64:65:07:F1:DA";
+		macs[5] =  "DA:74:1C:5C:CD:FE";
+		macs[6] =  "F1:C8:76:15:C7:BA";
+		macs[7] =  "F9:7B:16:73:8B:73";
+		macs[8] =  "CC:57:4D:41:6F:73";
+		macs[9] =  "DA:50:F0:61:C4:E0";
+		macs[10] = "F4:96:3B:66:3D:BE";
+		macs[11] = "F8:5C:38:9A:A4:62";
+		macs[12] = "E4:FB:1B:CC:C5:ED";
+		macs[13] = "DC:A2:64:1E:F3:B3";
+		macs[14] = "CE:41:C2:91:9F:3E";
+		macs[15] = "E8:1B:68:27:59:B2";
+		macs[16] = "DD:FD:1E:76:B4:DC";
+		macs[17] = "DC:6B:A9:57:02:3E";
+		macs[18] = "F4:4D:80:65:7B:2A";
+		macs[19] = "E4:6B:D5:3A:0B:C4";
+		macs[20] = "E7:D2:9F:AD:60:33";
+		macs[21] = "E3:CA:4D:58:9E:98";
+		macs[22] = "D2:9F:A5:E8:30:59";
+		macs[23] = "C2:75:6A:D0:E8:6C";
+		macs[24] = "FB:4C:DF:64:B2:42";
+		macs[25] = "C4:CA:29:9C:4C:99";
+		macs[26] = "CC:C4:9E:21:79:1A";
+		macs[27] = "EB:9F:AE:A9:C6:D4";
+		macs[28] = "DF:36:62:FA:08:F9";
+		macs[29] = "F4:2E:E3:3E:D5:08";
+            $('#create').click(function(){
+                    $('#qrcode').html('').qrcode({
+                        text: $('#text').val()
+                    });
+            })
+			
+			$('#download').click(function(){
+                downloadQ(0);
+            })	
+
+			$('#batchcreate').click(function(){
+					for(var i=0; i<macs.length; i++){
+					$('#qrcode').html('').qrcode({
+                        text: '{"pedo":"'+macs[i]+'"}'
+                    });
+					downloadQ(i);
+					}
+					
+            })
+			function downloadQ(index){
+			var data = $("canvas")[0].toDataURL().replace("image/png", "image/octet-stream;");
+				var filename="tupian"+index+".png";
+				var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+                save_link.href = data;
+                save_link.download = filename;  
+                var event = document.createEvent('MouseEvents');
+                event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                save_link.dispatchEvent(event);
+			}
+			
+        </script>
+    </body>
+</html>
